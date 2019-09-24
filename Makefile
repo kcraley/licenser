@@ -19,8 +19,8 @@ GIT_STATUS	?= $(shell test -n "`git status --porcelain`" && echo "dirty" || echo
 .PHONY: build
 build:
 	go build -ldflags \
-	"-X github.com/kcraley/licenser/internal/version.GitStatus=$(GIT_STATUS) \
-	-X github.com/kcraley/licenser/internal/version.Release=$(RELEASE) \
-	-X github.com/kcraley/licenser/internal/version.GitCommit=$(GIT_SHA) \
-	-X github.com/kcraley/licenser/internal/version.Repo=$(GIT_REPO)" \
+	"-X github.com/kcraley/licenser/pkg/version.GitStatus=$(GIT_STATUS) \
+	-X github.com/kcraley/licenser/pkg/version.Release=$(RELEASE) \
+	-X github.com/kcraley/licenser/pkg/version.GitCommit=$(GIT_SHA) \
+	-X github.com/kcraley/licenser/pkg/version.Repo=$(GIT_REPO)" \
 	-o $(BIN_DIR)$(LICENSER_NAME) ./main.go
