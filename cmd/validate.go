@@ -6,31 +6,31 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const (
+	validateUse   = "validate"
+	validateShort = "validates a header exists for source code files"
+	validateLong  = `
+Validate:
+
+Validate walks the directory structure and verifies the license
+headers exist in the source code.  If the headers do not exist,
+the command will exit with a non-zero return code.  If used with
+the --exclude/-e flag, those paths will be excludes from the
+validation.`
+)
+
 // validateCmd represents the validate command
 var validateCmd = &cobra.Command{
-	Use:   "validate",
-	Short: "validates headers exist in source files given a path",
-	Long: `Validate:
-
-Will validate that the source code within a given path
-have the necessary licenser header.  If the validation
-fails, the files missing the license header will be
-output and a non-zero exit code will be returned`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("validate called")
-	},
+	Use:   validateUse,
+	Short: validateShort,
+	Long:  validateLong,
+	Run:   validateCmdFunc,
 }
 
 func init() {
 	rootCmd.AddCommand(validateCmd)
+}
 
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// validateCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// validateCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+func validateCmdFunc(cmd *cobra.Command, args []string) {
+	fmt.Println("validate called")
 }
