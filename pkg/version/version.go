@@ -15,5 +15,5 @@ var (
 
 // Print writes the binary version to stdout
 func Print() string {
-	return fmt.Sprintf("\n release: %s\n commit: git-%s-%s\n repo: %s", Release, GitCommit, GitStatus, Repo)
+	return fmt.Sprintf("%s\n commit: git-%s-%s\n repo: %s", Release, GitCommit, GitStatus, Repo)
 }
