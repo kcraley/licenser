@@ -19,21 +19,22 @@ A command line interface tools which can validate,
 add or modify the headers of source code.`
 )
 
-var rootVersion = version.Print()
-
-var rootCmd = &cobra.Command{
-	Use:     rootUse,
-	Short:   rootShort,
-	Long:    rootLong,
-	Version: rootVersion,
-}
+var (
+	globalOpts  = NewOptions()
+	rootVersion = version.Print()
+	rootCmd     = &cobra.Command{
+		Use:     rootUse,
+		Short:   rootShort,
+		Long:    rootLong,
+		Version: rootVersion,
+	}
+)
 
 func init() {
-	o := NewOptions()
-	rootCmd.PersistentFlags().StringVarP(&o.Author, "author", "a", o.Author, "the author to be used for the license header")
-	rootCmd.PersistentFlags().StringArrayVarP(&o.Exclude, "exclude", "e", o.Exclude, "an arrary of paths to exclude")
-	rootCmd.PersistentFlags().StringVarP(&o.License, "license", "l", o.License, "the license to use for all source code")
-	rootCmd.PersistentFlags().BoolVarP(&o.Verbose, "verbose", "v", o.Verbose, "displays verbose output when executing")
+	rootCmd.PersistentFlags().StringVarP(&globalOpts.Author, "author", "a", globalOpts.Author, "the author to be used for the license header")
+	rootCmd.PersistentFlags().StringArrayVarP(&globalOpts.Exclude, "exclude", "e", globalOpts.Exclude, "an arrary of paths to exclude")
+	rootCmd.PersistentFlags().StringVarP(&globalOpts.License, "license", "l", globalOpts.License, "the license to use for all source code")
+	rootCmd.PersistentFlags().BoolVarP(&globalOpts.Verbose, "verbose", "v", globalOpts.Verbose, "displays verbose output when executing")
 }
 
 // Execute runs the root command
