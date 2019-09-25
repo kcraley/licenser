@@ -51,7 +51,10 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 	if err != nil {
 		fmt.Printf("An error occurred: %v", err)
 	}
-	fmt.Printf("%q", modified)
+	fmt.Println("Scanning files...")
+	for _, file := range modified {
+		fmt.Printf("%q\n", file)
+	}
 
 	valid, err := license.ValidateLicense(modified, globalOpts.License)
 	if err != nil {
@@ -62,5 +65,8 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 	if !valid {
 		fmt.Printf("The source code does not have the correct license headers")
 		os.Exit(1)
+	} else {
+		fmt.Printf("\nValidation successful!\n")
+		os.Exit(0)
 	}
 }
