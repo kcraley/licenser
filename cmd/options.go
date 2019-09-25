@@ -12,6 +12,7 @@ const (
 var (
 	defaultPath    = []string{"."}
 	defaultExclude = []string{
+		".git",
 		".gitignore",
 		".vscode",
 		"LICENSE",
