@@ -10,7 +10,14 @@ const (
 )
 
 var (
-	defaultExclude = []string{}
+	defaultPath    = []string{"."}
+	defaultExclude = []string{
+		".gitignore",
+		".vscode",
+		"LICENSE",
+		"NOTICE",
+		"README.md",
+	}
 )
 
 // Options defines the command line interface flags
@@ -25,7 +32,7 @@ type Options struct {
 
 // NewOptions creates and returns new options
 func NewOptions() *Options {
-	opts := Options{
+	opts := &Options{
 		Author:      defaultAuthor,
 		DryRun:      defaultDryRun,
 		Exclude:     defaultExclude,
@@ -33,5 +40,5 @@ func NewOptions() *Options {
 		ShowVersion: defaultShowVersion,
 		Verbose:     defaultVerbose,
 	}
-	return &opts
+	return opts
 }

@@ -3,11 +3,12 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/kcraley/licenser/pkg/path"
 	"github.com/spf13/cobra"
 )
 
 const (
-	validateUse   = "validate"
+	validateUse   = "validate [path]"
 	validateShort = "validates a header exists for source code files"
 	validateLong  = `
 Validate:
@@ -24,6 +25,7 @@ var validateCmd = &cobra.Command{
 	Use:   validateUse,
 	Short: validateShort,
 	Long:  validateLong,
+	Args:  cobra.MinimumNArgs(1),
 	Run:   validateCmdFunc,
 }
 
@@ -32,5 +34,20 @@ func init() {
 }
 
 func validateCmdFunc(cmd *cobra.Command, args []string) {
-	fmt.Println("validate called")
+	var paths []string
+	if len(args) > 0 {
+		paths = args
+	} else {
+		paths = defaultPath
+	}
+
+	for _, v := range defaultExclude {
+		globalOpts.Exclude = append(globalOpts.Exclude, v)
+	}
+
+	modified, err := path.Walk(paths, globalOpts.Exclude, args)
+	if err != nil {
+		fmt.Printf("An error occurred: %v", err)
+	}
+	fmt.Printf("%q", modified)
 }
