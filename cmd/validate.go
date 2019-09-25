@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
+	"github.com/kcraley/licenser/pkg/license"
 	"github.com/kcraley/licenser/pkg/path"
 	"github.com/spf13/cobra"
 )
@@ -50,4 +52,15 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 		fmt.Printf("An error occurred: %v", err)
 	}
 	fmt.Printf("%q", modified)
+
+	valid, err := license.ValidateLicense(modified, globalOpts.License)
+	if err != nil {
+		fmt.Printf("An error occurred validating files: %s", err)
+		os.Exit(1)
+	}
+
+	if !valid {
+		fmt.Printf("The source code does not have the correct license headers")
+		os.Exit(1)
+	}
 }
