@@ -2,34 +2,52 @@ package license
 
 import (
 	"bufio"
-	"fmt"
 	"io"
 	"os"
 	"reflect"
 )
 
+// Result is a single instance of a validation result
+type Result struct {
+	FileName  string
+	Validated bool
+	Error     error
+}
+
+// Results is a slice of validation result
+var Results []Result
+
 // ValidateLicense verifies that the license header exists for a specific license
-func ValidateLicense(files []string, license string) (bool, error) {
+func ValidateLicense(files []string, license string) []Result {
 	licenseHeader := getLicenseHeaders(license)
-	var result bool
-	var err error
 
 	for _, file := range files {
 		f, err := os.Open(file)
 		if err != nil {
-			err = fmt.Errorf("Unable to access file: %q", file)
+			Results = append(Results, Result{
+				FileName:  file,
+				Validated: false,
+				Error:     err,
+			})
 		}
 		defer f.Close()
 
 		if containsLicenseHeader(f, licenseHeader) {
-			result = true
+			Results = append(Results, Result{
+				FileName:  file,
+				Validated: true,
+				Error:     nil,
+			})
 		} else {
-			result = false
-			return result, err
+			Results = append(Results, Result{
+				FileName:  file,
+				Validated: false,
+				Error:     nil,
+			})
 		}
 	}
 
-	return result, err
+	return Results
 }
 
 // getLicenseHeaders returns the license headers for a specific license

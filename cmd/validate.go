@@ -36,6 +36,7 @@ func init() {
 }
 
 func validateCmdFunc(cmd *cobra.Command, args []string) {
+	var exitCode int = exitSuccess
 	var paths []string
 	if len(args) > 0 {
 		paths = args
@@ -56,17 +57,19 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 		fmt.Printf("%q\n", file)
 	}
 
-	valid, err := license.ValidateLicense(modified, globalOpts.License)
-	if err != nil {
-		fmt.Printf("An error occurred validating files: %s", err)
-		os.Exit(1)
-	}
+	results := license.ValidateLicense(modified, globalOpts.License)
+	for _, result := range results {
+		if result.Error != nil {
+			fmt.Printf("An error occurred validating files: %s, %s\n",
+				result.FileName, result.Error)
+		}
 
-	if !valid {
-		fmt.Printf("The source code does not have the correct license headers")
-		os.Exit(exitNeedsHeaders)
-	} else {
-		fmt.Printf("\nValidation successful!\n")
-		os.Exit(exitSuccess)
+		if result.Validated == false {
+			exitCode = exitNeedsHeaders
+			fmt.Printf("Missing license headers in file: %q\n", result.FileName)
+		} else {
+			fmt.Printf("Headers exist in file: %q\n", result.FileName)
+		}
 	}
+	os.Exit(exitCode)
 }
