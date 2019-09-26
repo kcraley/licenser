@@ -25,6 +25,7 @@ func ValidateLicense(files []string, license string) (bool, error) {
 			result = true
 		} else {
 			result = false
+			return result, err
 		}
 	}
 
