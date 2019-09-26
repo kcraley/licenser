@@ -17,9 +17,9 @@ type Result struct {
 // Results is a slice of validation result
 var Results []Result
 
-// ValidateLicense verifies that the license header exists for a specific license
-func ValidateLicense(files []string, license string) []Result {
-	licenseHeader := getLicenseHeaders(license)
+// Validate verifies that the license header exists for a specific license
+func Validate(files []string, license string) []Result {
+	licenseHeader := getHeader(license)
 
 	for _, file := range files {
 		f, err := os.Open(file)
@@ -32,7 +32,7 @@ func ValidateLicense(files []string, license string) []Result {
 		}
 		defer f.Close()
 
-		if containsLicenseHeader(f, licenseHeader) {
+		if containsHeader(f, licenseHeader) {
 			Results = append(Results, Result{
 				FileName:  file,
 				Validated: true,
@@ -50,8 +50,8 @@ func ValidateLicense(files []string, license string) []Result {
 	return Results
 }
 
-// getLicenseHeaders returns the license headers for a specific license
-func getLicenseHeaders(license string) []string {
+// getHeader returns the license headers for a specific license
+func getHeader(license string) []string {
 	licenses := make(map[string][]string)
 	licenses["ASL2"] = ASL2Header
 	licenses["MIT"] = MITHeader
@@ -59,8 +59,8 @@ func getLicenseHeaders(license string) []string {
 	return licenses[license]
 }
 
-//containsLicenseHeader checks if the license header exists
-func containsLicenseHeader(file io.Reader, license []string) bool {
+//containsHeader checks if the license header exists
+func containsHeader(file io.Reader, license []string) bool {
 	var found []string
 	scanner := bufio.NewScanner(file)
 
