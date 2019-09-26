@@ -27,7 +27,6 @@ var validateCmd = &cobra.Command{
 	Use:   validateUse,
 	Short: validateShort,
 	Long:  validateLong,
-	Args:  cobra.MinimumNArgs(1),
 	Run:   validateCmdFunc,
 }
 
