@@ -50,6 +50,7 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 	modified, err := path.Walk(paths, globalOpts.Exclude, args)
 	if err != nil {
 		fmt.Printf("An error occurred: %v", err)
+		os.Exit(exitAccessFailure)
 	}
 	fmt.Println("Scanning files...")
 	for _, file := range modified {
