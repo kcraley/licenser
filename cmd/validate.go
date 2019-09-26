@@ -64,9 +64,9 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 
 	if !valid {
 		fmt.Printf("The source code does not have the correct license headers")
-		os.Exit(1)
+		os.Exit(exitNeedsHeaders)
 	} else {
 		fmt.Printf("\nValidation successful!\n")
-		os.Exit(0)
+		os.Exit(exitSuccess)
 	}
 }
