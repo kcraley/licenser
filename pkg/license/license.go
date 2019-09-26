@@ -54,6 +54,7 @@ func ValidateLicense(files []string, license string) []Result {
 func getLicenseHeaders(license string) []string {
 	licenses := make(map[string][]string)
 	licenses["ASL2"] = ASL2Header
+	licenses["MIT"] = MITHeader
 
 	return licenses[license]
 }
