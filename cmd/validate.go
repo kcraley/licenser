@@ -57,7 +57,7 @@ func validateCmdFunc(cmd *cobra.Command, args []string) {
 		fmt.Printf("%q\n", file)
 	}
 
-	results := license.Validate(modified, globalOpts.License)
+	results := license.Validate(modified, globalOpts.Author, globalOpts.License)
 	for _, result := range results {
 		if result.Error != nil {
 			fmt.Printf("An error occurred validating files: %s, %s\n",
