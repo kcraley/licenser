@@ -11,19 +11,24 @@ import (
 // ValidateLicense verifies that the license header exists for a specific license
 func ValidateLicense(files []string, license string) (bool, error) {
 	licenseHeader := getLicenseHeaders(license)
+	var result bool
+	var err error
 
 	for _, file := range files {
 		f, err := os.Open(file)
 		if err != nil {
-			return false, fmt.Errorf("Unable to access file: %q", file)
+			err = fmt.Errorf("Unable to access file: %q", file)
 		}
 		defer f.Close()
 
 		if containsLicenseHeader(f, licenseHeader) {
-			return true, nil
+			result = true
+		} else {
+			result = false
 		}
 	}
-	return false, nil
+
+	return result, err
 }
 
 // getLicenseHeaders returns the license headers for a specific license
