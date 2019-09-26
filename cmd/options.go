@@ -1,12 +1,20 @@
 package cmd
 
 const (
+	// Default values for Options
 	appName            = "licenser"
 	defaultAuthor      = "UNKNOWN"
 	defaultDryRun      = false
 	defaultLicense     = "UNKNOWN"
 	defaultShowVersion = false
 	defaultVerbose     = false
+)
+
+const (
+	// Exit return codes
+	exitSuccess = iota
+	exitNeedsHeaders
+	exitAccessFailure
 )
 
 var (
